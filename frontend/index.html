@@ -1,0 +1,91 @@
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <theme-tile v-for="theme in themes" v-bind:theme="theme" :topics=topics></theme-tile>
+    </div>
+</body>
+<script>
+    Vue.component('theme-tile', {
+        props: ['theme', 'topics'],
+        template: `
+        <div>
+            <div class="tile theme-tile" :id="'theme'+theme.id">
+                {{theme.title}}
+            </div>
+            <topic-tile v-for="topic in filter_topics(theme.id)" :topic="topic"></topic-tile>
+        </div>
+        `,
+        methods: {
+            filter_topics: function(theme_id) {
+                return this.topics.filter(topic => topic.theme === theme_id)
+            },
+            set_position: function() {
+                let element = document.getElementById('theme' + this.theme.id)
+                element.style.top = this.theme.top + "px"
+                element.style.left = this.theme.left + "px"
+                document.body.append(element)
+            }
+        },
+        mounted: function() {
+            this.set_position()
+        }
+    })
+    Vue.component('topic-tile', {
+        props: ['topic'],
+        template: `
+        <div class="tile topic-tile" :id="'topic'+topic.id">
+            {{topic.title}}
+        </div>
+        `,
+        methods: {
+            set_position: function() {
+                let element = document.getElementById('topic' + this.topic.id)
+                element.style.top = this.topic.top + "px"
+                element.style.left = this.topic.left + "px"
+                document.body.append(element)
+            }
+        },
+        mounted: function() {
+            this.set_position()
+        }
+    })
+    var app = new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                themes: [
+                    {"id": 1, "title": "title 1", "left": 10, "top": 100},
+                    {"id": 2, "title": "title 2", "left": 10, "top": 300},
+                    {"id": 3, "title": "title 3", "left": 10, "top": 500}
+                ],
+                topics: [
+                    {"id": 1, "title": "title 1", "theme": 1, "left": 300, "top": 50},
+                    {"id": 2, "title": "title 2", "theme": 1, "left": 300, "top": 150},
+                    {"id": 3, "title": "title 3", "theme": 2, "left": 300, "top": 250},
+                    {"id": 4, "title": "title 4", "theme": 2, "left": 300, "top": 350},
+                    {"id": 5, "title": "title 5", "theme": 3, "left": 300, "top": 450},
+                    {"id": 6, "title": "title 6", "theme": 3, "left": 300, "top": 550},
+                ]
+            }
+        },
+    })
+</script>
+<style>
+    .tile {
+        border-radius: 15px;
+        border: 2px solid black;
+        padding: 10px;
+        margin: 5px;
+        width: 200px;
+        position: fixed;
+    }
+    .theme-tile {
+        background-color: rgb(255, 196, 118);
+    }
+    .topic-tile {
+        background-color: rgb(255, 118, 118);
+    }
+</style>
