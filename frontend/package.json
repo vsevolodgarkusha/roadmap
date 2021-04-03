@@ -8,11 +8,23 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "less-loader": "^8.0.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1",
+    "styles-loader": "^3.0.0",
+    "vue": "^2.6.11",
+    "vue-material-checkbox": "^2.2.0",
+    "vue-resizable": "^1.2.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "pretty-checkbox-vue": "^1.1.9",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
