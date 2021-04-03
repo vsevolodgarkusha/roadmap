@@ -6,61 +6,15 @@ from django.conf import settings
 
 class TimeStampedModel(models.Model):
 
-    class Meta:
-
-        abstract = True
-        ordering = ('-created_at', )
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
-class ItemBase(TimeStampedModel):
     class Meta:
         abstract = True
-
-    title = models.CharField(max_length=150)
-
-    def str(self):
-        return self.title
-
-
-class Materials(models.Model):
-
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    item = GenericForeignKey('content_type', 'object_id')
-
-
-class Text(ItemBase):
-
-    content = models.TextField(blank=True)
-
-
-# Деревом файлов потом займусь
-class File(ItemBase):
-
-    file = models.FileField(upload_to='static', null=True, blank=True)
-
-
-# Деревом файлов потом займусь
-class Image(ItemBase):
-
-    file = models.ImageField(upload_to='static', null=True, blank=True)
-
-
-# Деревом файлов потом займусь
-class Video(ItemBase):
-
-    url = models.URLField()
+        ordering = ('-created_at', )
 
 
 class Block(TimeStampedModel):
-
-    class Meta:
-
-        abstract = True
-        ordering = ('position_y', )
 
     importance_choices = (
         (0, 'As an introduction'),
@@ -75,12 +29,14 @@ class Block(TimeStampedModel):
     importance = models.PositiveSmallIntegerField(default=3, choices=importance_choices)
     position_x = models.IntegerField(blank=True, null=True)
     position_y = models.IntegerField(blank=True, null=True)
-    next_block = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    materials = models.ManyToManyField(Materials, blank=True, related_name='block')
+    previous_block = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        abstract = True
+        ordering = ('position_y', )
 
 
 class Module(Block):
-
     pass
 
 
