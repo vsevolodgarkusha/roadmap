@@ -27,13 +27,12 @@ class Block(TimeStampedModel):
     short_description = models.CharField(max_length=200, blank=True)
     completed = models.BooleanField(default=False)
     importance = models.PositiveSmallIntegerField(default=3, choices=importance_choices)
-    position_x = models.IntegerField(blank=True, null=True)
-    position_y = models.IntegerField(blank=True, null=True)
+    left = models.IntegerField(blank=True, null=True)
+    top = models.IntegerField(blank=True, null=True)
     previous_block = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         abstract = True
-        ordering = ('position_y', )
 
 
 class Module(Block):
